@@ -30,21 +30,22 @@
 
                 <nav class="navbar navbar-light bg-faded">
                     <form class="form-inline">
+
+                        {{#if user}}
                         <a href="/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Home</a>
+                        <a href="/users/logout" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Log out </a>
+
+                        {{else}}
                         <a href="/users/login" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Log in </a>
                         <a href="/users/register" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Register </a>
-                        <a href="/users/logout" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Log out </a>
+
+                        {{/if}}
                     </form>
                 </nav>
 
             </div>
 
-            <!-- Second of two columns -->
-            {{!--
-            <div class="col-md-6">
-                <a class="btn btn-primary btn-lg" href="#" role="button">Tranee</a>
-            </div> --}}
-
+          
         </div>
     </div>
     <div class="container">
