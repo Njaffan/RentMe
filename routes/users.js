@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+var Trainer = require('../models/trainer');
 var passport = require('passport');
 LocalStrategy = require('passport-local').Strategy;
 
@@ -13,6 +14,10 @@ router.get('/register', function (req, res) {
 // Login page
 router.get('/login', function (req, res) {
     res.render('login');
+});
+
+router.get('/service', function (req, res) {
+    res.render('service');
 });
 
 //  register User
@@ -115,6 +120,48 @@ router.get('/logout', function (req, res) {
 
 
 
+//add service
+router.post('/service',  function (req, res) {
 
+    var name = req.body.name;
+    var service = req.body.service;
+    var price = req.body.price;
+    var icon = req.body.icon;
+   
+
+    // validation
+    req.checkBody('name', 'Name is required').notEmpty();
+    req.checkBody('service', 'Service is required').notEmpty();
+    req.checkBody('price', 'Price is required').notEmpty();
+   
+
+    var errors = req.validationErrors();
+
+    if (errors) {
+        res.render('service', {
+            errors: errors
+
+        })
+    } else {
+        var newTrainer = new Trainer({
+            name: name,
+            service: service,
+            price: price,
+            icon: icon
+        });
+
+        Trainer.createUser(newTrainer, function (err, trainer) {
+            if (err) throw err;
+            console.log(trainer);
+        });
+
+        req.flash('success_msg', 'Thank you, your services has been added');
+
+        res.redirect('/users/service');
+    }
+
+
+
+});
 
 module.exports = router;

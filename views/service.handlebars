@@ -1,0 +1,35 @@
+{{#if errors}} {{#each errors}}
+<div class="alert alert-danger">{{msg}}</div>
+{{/each}} {{/if}}
+
+<form method="post" action="/users/service">
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" placeholder="Name" name="name">
+    </div>
+    <div class="form-group">
+        <label>Service</label>
+        <input type="text" class="form-control" placeholder="Service" name="service">
+    </div>
+    <div class="form-group">
+        <label>Hourly Rate</label>
+        <input type="text" class="form-control" placeholder="Rate" name="price">
+    </div>
+    <div class= "form-group" >
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Upload</span>
+        </div>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile01">
+            <label name = "icon" class="custom-file-label" for="inputGroupFile01">Choose file</label>
+        </div>
+    </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+
+
+</form>
