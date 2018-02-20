@@ -1,9 +1,20 @@
 var express = require('express');
 var router = express.Router();
+var TrainerSchema = require('../models/trainer');
+
 
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
-	res.render('index');
+	
+	TrainerSchema.find({}, function(err, data) {
+		var dbservices = {
+			services: data,
+			islogin:req.isAuthenticated()
+		}
+		console.log(data)
+		res.render('index',dbservices);
+	  });
+	
 });
 
 function ensureAuthenticated(req, res, next){

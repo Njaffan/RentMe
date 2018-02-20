@@ -4,6 +4,8 @@ var User = require('../models/user');
 var Trainer = require('../models/trainer');
 var passport = require('passport');
 LocalStrategy = require('passport-local').Strategy;
+var mongoose = require ('mongoose')
+
 
 
 //  register page
@@ -14,9 +16,11 @@ router.get('/register', function (req, res) {
 // Login page
 router.get('/login', function (req, res) {
     res.render('login');
+    
 });
 
-router.get('/service', function (req, res) {
+//ServicePage
+router.get('/service', function (req, res) {    
     res.render('service');
 });
 
@@ -128,11 +132,13 @@ router.post('/service',  function (req, res) {
     var price = req.body.price;
     var icon = req.body.icon;
    
+    
 
     // validation
-    req.checkBody('name', 'Name is required').notEmpty();
+    //req.checkBody('name', 'Name is required').notEmpty();
     req.checkBody('service', 'Service is required').notEmpty();
     req.checkBody('price', 'Price is required').notEmpty();
+    req.checkBody('price', 'Price is a number').isNumeric();
    
 
     var errors = req.validationErrors();
@@ -146,22 +152,20 @@ router.post('/service',  function (req, res) {
         var newTrainer = new Trainer({
             name: name,
             service: service,
-            price: price,
-            icon: icon
+            price: price
+          
         });
 
         Trainer.createUser(newTrainer, function (err, trainer) {
             if (err) throw err;
             console.log(trainer);
+           
         });
 
         req.flash('success_msg', 'Thank you, your services has been added');
 
-        res.redirect('/users/service');
-    }
-
-
+        res.redirect('/');
+    } 
 
 });
-
 module.exports = router;
