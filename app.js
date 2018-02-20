@@ -7,84 +7,81 @@ var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
-var localStrategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/loginapp');
 var db = mongoose.connection;
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var trainers = require('./routes/users');
 
-//init app
+// Init App
 var app = express();
 
-// view engine
-app.set('views', path.join(__dirname, 'views')),
-    app.engine('handlebars', exphbs({
-        defaultLayout: 'layout'
-    }));
+// View Engine
+app.set('views', path.join(__dirname, 'views'));
+app.engine('handlebars', exphbs({defaultLayout:'layout'}));
 app.set('view engine', 'handlebars');
 
-// bodyParser middleware
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
+// BodyParser Middleware
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
-// setup public folder
+// Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Middleware for express session
+// Express Session
 app.use(session({
     secret: 'secret',
-    resave: false,
     saveUninitialized: true,
-}))
+    resave: true
+}));
 
-
-
+// Passport init
 app.use(passport.initialize());
 app.use(passport.session());
 
-//middleware for the validator
-
+// Express Validator
 app.use(expressValidator({
-    errorFormatter: function (param, msg, value) {
-        var namespace = parm.split('.'),
-            root = namespace.shit(),
-            formParam = root;
-        while (namespace.length) {
-            formParam += '[' + namespace.shift() + ']';
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
 
-        }
-        return {
-            param: formParam,
-            msg: msg,
-            value: value
-        }
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
     }
-}))
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
 
-// connect Flash
+// Connect Flash
 app.use(flash());
 
-//global var for flash session
+// Global Vars
 app.use(function (req, res, next) {
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.err_msg = req.flash('error_msg');
-    res.locals.error = req.flash('error');
-    next();
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
+  next();
 });
 
-//middleware for routes
+
+
 app.use('/', routes);
-app.use('/users',users);
+app.use('/users', users);
+app.use('/trainers', users);
 
+// Set Port
+app.set('port', (process.env.PORT || 3000));
 
-app.set('port',(process.env.PORT||3000));
-app.listen(app.get('port'), function() {
-    console.log("server started on port"+app.get('port'));
-  });
+app.listen(app.get('port'), function(){
+	console.log('Server started on port '+app.get('port'));
+});

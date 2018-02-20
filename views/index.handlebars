@@ -1,1 +1,26 @@
-index
+<div class="container">
+    <div>{{#each services}}
+    <div class="row">        
+            <div class="col-lg-6">
+                <div class="card-deck mb-3 text-center">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">{{name}}</h4>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title pricing-card-title">{{service}}
+                            </h3> ​
+                            <h1 class="card-title pricing-card-title">{{price}}
+                                <small class="text-muted">/ hr</small>
+                            </h1> ​
+                        </div>
+                        <button type="button" class="btn btn-outline-secondary">Contact</button>
+                    </div>
+                </div>
+            </div>
+            
+
+    </div>
+    {{/each}}</div>
+
+</div>

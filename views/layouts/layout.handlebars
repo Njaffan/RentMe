@@ -22,7 +22,7 @@
 <body>
     <div class="jumbotron">
         <h1 class="display-3">Welcome to Rent Me!</h1>
-
+        <h2>Professionals can now offer services to you</h2>
         <div class="row">
 
             <!-- First of two columns -->
@@ -30,27 +30,30 @@
 
                 <nav class="navbar navbar-light bg-faded">
                     <form class="form-inline">
+
+                        {{#if user}}
                         <a href="/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Home</a>
+                        <a href="/users/logout" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Log out </a>
+                        <a href="/users/service" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Add Service </a>
+                        {{else}}
                         <a href="/users/login" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Log in </a>
                         <a href="/users/register" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Register </a>
-                        <a href="/users/logout" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Log out </a>
+                        {{/if}}
                     </form>
                 </nav>
-
             </div>
-
-            <!-- Second of two columns -->
-            {{!--
-            <div class="col-md-6">
-                <a class="btn btn-primary btn-lg" href="#" role="button">Tranee</a>
-            </div> --}}
-
         </div>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                {{{body}}}
+            <div class="col-lg-6">
+                {{#if success_msg}}
+                <div class="alert alert-success">{{success_msg}}</div>
+                {{/if}} {{#if error_msg}}
+                <div class="alert alert-danger">{{error_msg}}</div>
+                {{/if}} {{#if error}}
+                <div class="alert alert-danger">{{error}}</div>
+                {{/if}} {{{body}}}
             </div>
 
         </div>
