@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "app.js"
+    "start": "node app.js",
+    "test": "node test.js"
   },
   "keywords": [
     "RentMe"
